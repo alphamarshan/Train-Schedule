@@ -59,9 +59,18 @@ database.ref().on("child_added", function(childSnapshot) {
 	console.log(trainFirst);
 	console.log(trainFrequency);
 
+	// This is the math to get the next train arrival and the minutes until thet next train using moment
+	var firstTimeConverted = moment(trainFirst, "HH:mm").subtract(1, "years");
+	var currentTime = moment();
+	var diffTime = moment().diff(moment(firstTimeConverted), "minutes");
+	var tRemainder = diffTime % trainFrequency;
+	var tMinutesTilTrain = trainFrequency - tRemainder;
+	var nextTrain = moment().add(tMinutesTilTrain, "minutes");
+	var arrivalTime = moment(nextTrain).format("HH:mm");
+
 	// Adds all of the train data into the table on the html side
 	$("#train-table > tbody").append("<tr><td>" + trainName + "</td><td>" + trainDestination + "</td><td>" +
-  	trainFirst + "</td><td>" + trainFrequency + "</td></tr>");
+  	trainFrequency + "</td><td>" + arrivalTime + "</td><td>" + tMinutesTilTrain + "</td></tr>");
 
 // Handles errors
 }, function(errorObject) {
