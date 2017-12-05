@@ -45,7 +45,7 @@ $("#freq-input").val("");
 
 // Creates a "snapshot" of the added train data to Firebase
 database.ref().on("child_added", function(childSnapshot) {
-	console.log(childSnapshot.val());
+	// console.log(childSnapshot.val());
 
 	// stores the data into variables
 	var trainName = childSnapshot.val().name;
@@ -54,10 +54,10 @@ database.ref().on("child_added", function(childSnapshot) {
 	var trainFrequency = childSnapshot.val().frequency;
 
 	// Logs all of the information
-	console.log(trainName);
-	console.log(trainDestination);
-	console.log(trainFirst);
-	console.log(trainFrequency);
+	// console.log(trainName);
+	// console.log(trainDestination);
+	// console.log(trainFirst);
+	// console.log(trainFrequency);
 
 	// This is the math to get the next train arrival and the minutes until thet next train using moment
 	var firstTimeConverted = moment(trainFirst, "HH:mm").subtract(1, "years");
@@ -71,6 +71,18 @@ database.ref().on("child_added", function(childSnapshot) {
 	// Adds all of the train data into the table on the html side
 	$("#train-table > tbody").append("<tr><td>" + trainName + "</td><td>" + trainDestination + "</td><td>" +
   	trainFrequency + "</td><td>" + arrivalTime + "</td><td>" + tMinutesTilTrain + "</td></tr>");
+
+	// Not sure how to get this working!:
+  	// setInterval(refreshTrain, 1000 * 60)
+
+  	// function refreshTrain() {
+  	// 	$("#train-table > tbody").html("<tr><td>" + trainName + "</td><td>" + trainDestination + "</td><td>" +
+  	// 	trainFrequency + "</td><td>" + arrivalTime + "</td><td>" + tMinutesTilTrain + "</td></tr>");
+  	// }
+
+  	// console.log(arrivalTime);
+  	// console.log(tMinutesTilTrain);
+
 
 // Handles errors
 }, function(errorObject) {
